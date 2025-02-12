@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -7,7 +7,7 @@ const router = Router();
 const prisma = new PrismaClient();
 
 // Kayıt ol
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
   try {
     const { email, password, name, phone, role } = req.body;
 
@@ -49,7 +49,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Giriş yap
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
