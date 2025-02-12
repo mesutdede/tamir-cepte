@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: tamir-cepte-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://tamircepte.vercel.app
+
+databases:
+  - name: tamir-cepte-db
+    plan: free
+    type: postgres 
