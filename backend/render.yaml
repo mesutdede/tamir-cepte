@@ -2,7 +2,7 @@ services:
   - type: web
     name: tamir-cepte-api
     env: node
-    buildCommand: npm install && npm run postinstall
+    buildCommand: npm install && npm run postinstall && npm run db:migrate
     startCommand: npm start
     envVars:
       - key: NODE_ENV
