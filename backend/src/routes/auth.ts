@@ -6,7 +6,70 @@ import jwt from 'jsonwebtoken';
 const router = Router();
 const prisma = new PrismaClient();
 
-// Kayıt ol
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Yeni kullanıcı kaydı
+ *     description: Yeni bir kullanıcı hesabı oluşturur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - name
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Kullanıcının email adresi
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: Kullanıcının şifresi
+ *               name:
+ *                 type: string
+ *                 description: Kullanıcının adı soyadı
+ *               phone:
+ *                 type: string
+ *                 description: Kullanıcının telefon numarası
+ *               role:
+ *                 type: string
+ *                 enum: [USER, PROVIDER]
+ *                 description: Kullanıcı rolü
+ *     responses:
+ *       200:
+ *         description: Başarılı kayıt
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT token
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     role:
+ *                       type: string
+ *       400:
+ *         description: Geçersiz istek
+ *       500:
+ *         description: Sunucu hatası
+ */
 router.post('/register', async (req: Request, res: Response) => {
   try {
     const { email, password, name, phone, role } = req.body;
@@ -48,7 +111,59 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-// Giriş yap
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Kullanıcı girişi
+ *     description: Email ve şifre ile kullanıcı girişi yapar
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Kullanıcının email adresi
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: Kullanıcının şifresi
+ *     responses:
+ *       200:
+ *         description: Başarılı giriş
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT token
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     role:
+ *                       type: string
+ *       400:
+ *         description: Geçersiz kimlik bilgileri
+ *       500:
+ *         description: Sunucu hatası
+ */
 router.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
